@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.cometchat.pro.core.AppSettings.AppSettingsBuilder
 import com.cometchat.pro.core.CometChat
 import com.cometchat.pro.exceptions.CometChatException
 
@@ -28,7 +29,10 @@ class WelcomeActivity : AppCompatActivity() {
     private fun initCometChat() {
         // Initializes CometChat with the APP_ID from the dashboard
 
-        CometChat.init(this, GeneralConstants.APP_ID, object : CometChat.CallbackListener<String>() {
+        val appSettings = AppSettingsBuilder().subscribePresenceForAllUsers()
+            .setRegion(GeneralConstants.REGION).build()
+
+        CometChat.init(this, GeneralConstants.APP_ID,appSettings, object : CometChat.CallbackListener<String>() {
             override fun onSuccess(p0: String?) {
                 Log.d(TAG, "Initialization completed successfully")
                 loginButton.isEnabled = true
